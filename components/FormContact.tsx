@@ -10,7 +10,6 @@ import PopUp from '@/components/Popup';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import style from '@/components/InputForm/inputForm.module.css';
 
 interface Props {
   title: string;
