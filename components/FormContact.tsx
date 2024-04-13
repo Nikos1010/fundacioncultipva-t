@@ -1,5 +1,5 @@
 'use client';
-import { createRef, useState } from 'react';
+import { createRef, useState, ChangeEvent } from 'react';
 import ActionButton from '@/components/ActionButton/ActionButton';
 import CustomForm from '@/components/Form/CustomForm';
 import InputForm from '@/components/InputForm/InputForm';
@@ -7,6 +7,10 @@ import { regex } from '@/constants';
 import { InterInputForm } from '@/interfaces/default';
 import SelectCountries from '@/components/SelectCountries';
 import PopUp from '@/components/Popup';
+import Checkbox from '@mui/material/Checkbox';
+import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+import style from '@/components/InputForm/inputForm.module.css';
 
 interface Props {
   title: string;
@@ -26,10 +30,12 @@ const MESSAGE_ERROR = {
 function FormEmail({ title, setIsSubmit }: Props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
   const [contentPop, setContentPop] = useState('');
   const emailInput = createRef<inputRef>();
   const nameInput = createRef<inputRef>();
   const subjectInput = createRef<inputRef>();
+  const { t } = useTranslation();
 
   const sendEmail = async (event: any) => {
     event.preventDefault();
@@ -64,7 +70,6 @@ function FormEmail({ title, setIsSubmit }: Props) {
       }
     });
     const res = await resStatus.json();
-    console.log(res);
     setContentPop(res.data?.id ? 'correctEmail' : 'somethingError');
 
     setOpen(true);
@@ -77,6 +82,10 @@ function FormEmail({ title, setIsSubmit }: Props) {
     setTimeout(() => {
       setOpen(false);
     }, 3000);
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
   };
 
   return (
@@ -110,7 +119,16 @@ function FormEmail({ title, setIsSubmit }: Props) {
         ref={subjectInput}
       />
 
-      <ActionButton textButton="send" isButton={true} />
+      <label style={{ display: 'flex', alignItems: 'center' }}>
+        <Checkbox checked={checked} onChange={handleChange} />
+        {t('terms_conditions__phrase')}
+        <Link href="/assets/Tratamiento_de_datos_2023.pdf" target="_blank"
+              style={{ color: 'black', fontWeight: 'bold' }}>
+          {t('terms_conditions')}
+        </Link>
+      </label>
+
+      <ActionButton textButton="send" isButton={true} checkButton={checked} />
 
       <PopUp open={open} content={contentPop} />
       {loading && (
@@ -121,4 +139,5 @@ function FormEmail({ title, setIsSubmit }: Props) {
     </CustomForm>
   );
 }
+
 export default FormEmail;

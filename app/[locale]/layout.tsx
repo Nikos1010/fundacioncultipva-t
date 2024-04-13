@@ -58,7 +58,7 @@ export default async function RootLayout({
             resources={resources}>
             <Header pages={headerPages} />
             <LanguageChanger />
-            <DonateModal />
+            {/* <DonateModal /> */}
             <main>{children}</main>
             <Footer />
           </TranslationsProvider>
