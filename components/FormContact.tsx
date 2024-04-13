@@ -48,6 +48,7 @@ function FormEmail({ title, setIsSubmit }: Props) {
       email: emailInput.current?.isValidInput(),
       name: nameInput.current?.isValidInput(),
       subject: subjectInput.current?.isValidInput(),
+      checked: checked,
       country: !!data.country
     };
 
